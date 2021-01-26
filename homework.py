@@ -11,8 +11,6 @@ class Calculator:
 
     def get_today_stats(self):
         sum_today = 0
-
-        date_now = dt.datetime.now().date()
         for date in self.records:
             if date.date == dt.datetime.now().date():
                 sum_today += date.amount
@@ -21,7 +19,7 @@ class Calculator:
     def get_week_stats(self):
         sum_week = 0
         date_today = dt.date.today()
-        week = date_today - dt.timedelta(days = 7)
+        week = date_today - dt.timedelta(days=7)
         for date in self.records:
             if week <= date.date <= date_today:
                 sum_week += date.amount
@@ -29,25 +27,23 @@ class Calculator:
 
 
 class Record:
-    def __init__(self, amount, comment, date = ''):
+    def __init__(self, amount, comment, date=''):
         self.amount = amount
         self.comment = comment
-
         if date == '':
             self.date = dt.datetime.now().date()
         else:
             self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
 
 
-
 class CashCalculator(Calculator):
     USD_RATE = 7.55
     EURO_RATE = 91.74
     RUB_RATE = 1.0
-
+    
     def __init__(self, limit):
         super().__init__(limit)
-        
+
     def get_today_cash_remained(self, currency_code):
         currencies_code = {
             'usd': ('USD', self.USD_RATE),
@@ -62,10 +58,8 @@ class CashCalculator(Calculator):
 
         if remains_cash > 0:
             return f'На сегодня осталось {remains_cash} {currency_code_name}'
-
         elif remains_cash == 0:
             return f'Денег нет, держись'
-
         else:
             return (
                 f'Денег нет, держись: твой долг - {abs(remains_cash)} '
@@ -74,7 +68,6 @@ class CashCalculator(Calculator):
 
         if currency_code not in currencies_code:
             return 'Направильно указана валюта! Попробуйте еще раз.'
-
 
 
 class CaloriesCalculator(Calculator):
