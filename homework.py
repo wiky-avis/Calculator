@@ -40,7 +40,7 @@ class CashCalculator(Calculator):
     USD_RATE = 7.55
     EURO_RATE = 91.74
     RUB_RATE = 1.0
-    
+
     def __init__(self, limit):
         super().__init__(limit)
 
@@ -59,7 +59,7 @@ class CashCalculator(Calculator):
         if remains_cash > 0:
             return f'На сегодня осталось {remains_cash} {currency_code_name}'
         elif remains_cash == 0:
-            return f'Денег нет, держись'
+            return 'Денег нет, держись'
         else:
             return (
                 f'Денег нет, держись: твой долг - {abs(remains_cash)} '
@@ -83,4 +83,4 @@ class CaloriesCalculator(Calculator):
                 f'калорийностью не более {limit_remains} кКал'
                 )
         elif limit_remains <= 0:
-            return f'Хватит есть!'
+            return 'Хватит есть!'
