@@ -40,7 +40,7 @@ class CashCalculator(Calculator):
     USD_RATE = 7.55
     EURO_RATE = 91.74
     RUB_RATE = 1.0
-    
+
     def __init__(self, limit):
         super().__init__(limit)
 
