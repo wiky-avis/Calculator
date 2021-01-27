@@ -10,20 +10,18 @@ class Calculator:
         self.records.append(object_records)
 
     def get_today_stats(self):
-        sum_today = 0
-        for date in self.records:
-            if date.date == dt.date.today():
-                sum_today += date.amount
-        return sum_today
+        return sum(
+            date.amount for date in self.records 
+            if date.date == dt.date.today()
+            )
 
     def get_week_stats(self):
-        sum_week = 0
         date_today = dt.date.today()
         week = date_today - dt.timedelta(days=7)
-        for date in self.records:
-            if week <= date.date <= date_today:
-                sum_week += date.amount
-        return sum_week
+        return sum(
+            date.amount for date in self.records 
+            if week <= date.date <= date_today
+            )
 
 
 class Record:
