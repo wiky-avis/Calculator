@@ -11,7 +11,7 @@ class Calculator:
 
     def get_today_stats(self):
         return sum(
-            date.amount for date in self.records 
+            date.amount for date in self.records
             if date.date == dt.date.today()
             )
 
@@ -19,7 +19,7 @@ class Calculator:
         date_today = dt.date.today()
         week = date_today - dt.timedelta(days=7)
         return sum(
-            date.amount for date in self.records 
+            date.amount for date in self.records
             if week <= date.date <= date_today
             )
 
@@ -28,7 +28,6 @@ class Record:
     def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
-        
         if date:
             self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
         else:
@@ -79,3 +78,4 @@ class CaloriesCalculator(Calculator):
                 f'калорийностью не более {limit_remains} кКал'
                 )
         return 'Хватит есть!'
+        
