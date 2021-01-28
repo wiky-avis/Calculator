@@ -39,20 +39,24 @@ class CashCalculator(Calculator):
     EURO_RATE = 91.74
     RUB_RATE = 1.0
 
-    def get_today_cash_remained(self, currency_code):
-        currencies_code = {
-            'usd': ('USD', self.USD_RATE),
-            'eur': ('Euro', self.EURO_RATE),
-            'rub': ('руб', self.RUB_RATE)
-        }
+    currencies_code = {
+        'usd': ('USD', USD_RATE),
+        'eur': ('Euro', EURO_RATE),
+        'rub': ('руб', RUB_RATE)
+    }
 
+    def get_today_cash_remained(self, currency_code):
+        if currency_code not in self.currencies_code:
+            return ValueError('Направильно указана валюта! Попробуйте еще раз.')
+        
         limit_remains = self.limit - self.get_today_stats()
-        currency_code_name, currency_code_rate = currencies_code[currency_code]
+
+        currency_code_name, currency_code_rate = self.currencies_code[currency_code]
         remains_cash = round(limit_remains / currency_code_rate, 2)
 
-        if remains_cash > 0:
+        if limit_remains > 0:
             return f'На сегодня осталось {remains_cash} {currency_code_name}'
-        elif remains_cash == 0:
+        elif limit_remains == 0:
             return 'Денег нет, держись'
         else:
             remains_cash = abs(remains_cash)
@@ -60,9 +64,6 @@ class CashCalculator(Calculator):
                 f'Денег нет, держись: твой долг - {remains_cash} '
                 f'{currency_code_name}'
                 )
-
-        if currency_code not in currencies_code:
-            return 'Направильно указана валюта! Попробуйте еще раз.'
 
 
 class CaloriesCalculator(Calculator):
@@ -76,7 +77,6 @@ class CaloriesCalculator(Calculator):
                 f'калорийностью не более {limit_remains} кКал'
                 )
         return 'Хватит есть!'
-
 
 
 cash_calculator = CashCalculator(1000)
