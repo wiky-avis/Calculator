@@ -10,9 +10,10 @@ class Calculator:
         self.records.append(object_records)
 
     def get_today_stats(self):
+        date_today = dt.date.today()
         return sum(
             date.amount for date in self.records
-            if date.date == dt.date.today()
+            if date.date == date_today
             )
 
     def get_week_stats(self):
@@ -28,18 +29,23 @@ class Record:
     def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
-        if date:
-            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
-        else:
+        if date is None:
             self.date = dt.date.today()
+        else:
+            self.date = dt.datetime.strptime(date, '%d.%m.%Y').date()
 
 
 class CashCalculator(Calculator):
-    USD_RATE = 7.55
+    USD_RATE = 75.55
     EURO_RATE = 91.74
     RUB_RATE = 1.0
 
     def get_today_cash_remained(self, currency_code):
+        limit_remains = self.limit - self.get_today_stats()
+
+        if limit_remains == 0:
+            return 'Денег нет, держись'
+
         currencies_code = {
             'usd': ('USD', self.USD_RATE),
             'eur': ('Euro', self.EURO_RATE),
@@ -51,14 +57,11 @@ class CashCalculator(Calculator):
                 'Направильно указана валюта! Попробуйте еще раз.'
                 )
 
-        limit_remains = self.limit - self.get_today_stats()
         currency_code_name, currency_code_rate = currencies_code[currency_code]
         remains_cash = round(limit_remains / currency_code_rate, 2)
 
         if limit_remains > 0:
             return f'На сегодня осталось {remains_cash} {currency_code_name}'
-        elif limit_remains == 0:
-            return 'Денег нет, держись'
         else:
             remains_cash = abs(remains_cash)
             return (
@@ -73,7 +76,7 @@ class CaloriesCalculator(Calculator):
         limit_remains = self.limit - used_today
         if limit_remains > 0:
             return (
-                f'Сегодня можно съесть что-нибудь ещё, но с общей '
+                'Сегодня можно съесть что-нибудь ещё, но с общей '
                 f'калорийностью не более {limit_remains} кКал'
                 )
         return 'Хватит есть!'
