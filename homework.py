@@ -53,7 +53,7 @@ class CashCalculator(Calculator):
         }
 
         if currency_code not in currencies_code:
-            return ValueError(
+            raise ValueError(
                 'Направильно указана валюта! Попробуйте еще раз.'
                 )
 
